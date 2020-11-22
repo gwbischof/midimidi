@@ -9,13 +9,14 @@ print(mido.get_input_names())
 
 # TODO: Update this to get user input.
 portname = 'Digital Piano'
+start = time.time()
 
 fig, ax = plt.subplots()
 x, y = [],[]
 sc = ax.scatter(x,y)
 plt.xlim(0,20)
 plt.ylim(0,120)
-plt.show()
+plt.show(block=False)
 
 def update_plot(msg):
     if msg.type == 'note_on':
@@ -23,7 +24,13 @@ def update_plot(msg):
             return
         x.append(time.time() - start)
         y.append(msg.note)
-        sc.set_offsets(np.c_[x,y])
+        sc.set_offsets(numpy.c_[x,y])
         fig.canvas.draw_idle()
 
-port = mido.open_input(portname, callback=update_plot)
+#port = mido.open_input(portname, callback=update_plot)
+
+with mido.open_input(portname) as inport:
+    for msg in inport:
+        if msg.type != 'clock': print(msg)
+        if msg.type == 'note_on':
+            update_plot(msg)
