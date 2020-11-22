@@ -13,24 +13,27 @@ start = time.time()
 
 plt.ion()
 fig, ax = plt.subplots()
-x, y = [],[]
+x, y, z = [],[],[]
 sc = ax.scatter(x,y)
 plt.xlim(0,20)
 plt.ylim(0,120)
 plt.show(block=False)
 
-def update_plot(msg):
+def update_plot(msg, time):
     if msg.type == 'note_on':
         print(msg)
         if msg.velocity == 0:
             return
-        x.append(time.time() - start)
+        x.append(time)
         y.append(msg.note)
+        z.append(msg.velocity)
         sc.set_offsets(numpy.c_[x,y])
+        sc.set_sizes(z)
         fig.canvas.draw_idle()
+        plt.xlim(time - 15, time+5)
         plt.pause(0.001)
 
 with mido.open_input(portname) as inport:
     for msg in inport:
         if msg.type == 'note_on':
-            update_plot(msg)
+            update_plot(msg, time.time() - start)
