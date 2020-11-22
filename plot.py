@@ -15,8 +15,8 @@ plt.ion()
 fig, ax = plt.subplots()
 x, y, z = [],[],[]
 sc = ax.scatter(x,y)
-plt.xlim(0,20)
-plt.ylim(0,120)
+plt.ylim(0,20)
+plt.xlim(0,120)
 plt.show(block=False)
 
 def update_plot(msg, time):
@@ -26,11 +26,11 @@ def update_plot(msg, time):
             return
         x.append(time)
         y.append(msg.note)
-        z.append(msg.velocity)
-        sc.set_offsets(numpy.c_[x,y])
+        z.append(max(1, msg.velocity-40)*3)
+        sc.set_offsets(numpy.c_[y,x])
         sc.set_sizes(z)
         fig.canvas.draw_idle()
-        plt.xlim(time - 15, time+5)
+        plt.ylim(time - 15, time+1)
         plt.pause(0.001)
 
 with mido.open_input(portname) as inport:
