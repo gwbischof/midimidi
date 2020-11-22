@@ -29,7 +29,6 @@ def update_plot(msg):
         sc.set_offsets(numpy.c_[x,y])
         fig.canvas.draw_idle()
         plt.pause(0.001)
-#port = mido.open_input(portname, callback=update_plot)
 
 with mido.open_input(portname) as inport:
     for msg in inport:
