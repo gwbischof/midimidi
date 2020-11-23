@@ -16,7 +16,7 @@ fig, ax = plt.subplots()
 x, y, z = [],[],[]
 sc = ax.scatter(x,y)
 plt.ylim(0,20)
-plt.xlim(0,120)
+plt.xlim(20,109)
 plt.show(block=False)
 
 def update_plot(msg, time):
@@ -31,7 +31,7 @@ def update_plot(msg, time):
         sc.set_sizes(z)
         fig.canvas.draw_idle()
         plt.ylim(time - 15, time+1)
-        plt.pause(0.001)
+        plt.pause(0.1)
 
 with mido.open_input(portname) as inport:
     for msg in inport:
