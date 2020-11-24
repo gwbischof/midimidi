@@ -11,17 +11,19 @@ print(mido.get_input_names())
 portname = 'Digital Piano'
 start = time.time()
 
-plt.ion()
-fig, ax = plt.subplots()
+#plt.ion()
+#fig, ax = plt.subplots()
 x, y, z = [0,0],[],[]
-sc = ax.scatter(x,y)
-plt.ylim(0,5)
-plt.xlim(20,109)
-plt.show(block=False)
+#sc = ax.scatter(x,y)
+#plt.ylim(0,5)
+#plt.xlim(20,109)
+#plt.show(block=False)
 
 def update_plot(msg, time):
     if msg.type == 'note_on':
         print(msg)
+        if msg.velocity == 0:
+            return
         x.append(time)
         y.append(msg.note)
         z.append(max(1, msg.velocity-40)*3)
@@ -31,8 +33,15 @@ def update_plot(msg, time):
         plt.ylim(time - 15, time+1)
         plt.pause(0.01)
 
+def print_diff(msg, time):
+        x.append(time)
+        print(x[-1] - x[-2])
+        #y.append(msg.note)
+        #z.append(max(1, msg.velocity-40)*3)
+
 
 with mido.open_input(portname) as inport:
     for msg in inport:
         if msg.type == 'note_on' and msg.velocity !=0:
-            update_plot(msg, time.time() - start)
+            print_diff(msg, time.time() - start)
+            #update_plot(msg, time.time() - start)
