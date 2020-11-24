@@ -43,6 +43,5 @@ def print_diff(msg, time):
 with mido.open_input(portname) as inport:
     for msg in inport:
         if msg.type == 'note_on' and msg.velocity !=0:
-            print(msg)
             print_diff(msg, time.time() - start)
             #update_plot(msg, time.time() - start)
