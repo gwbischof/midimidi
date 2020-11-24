@@ -22,8 +22,6 @@ plt.show(block=False)
 def update_plot(msg, time):
     if msg.type == 'note_on':
         print(msg)
-        if msg.velocity == 0:
-            return
         x.append(time)
         y.append(msg.note)
         z.append(max(1, msg.velocity-40)*3)
