@@ -13,7 +13,7 @@ start = time.time()
 
 plt.ion()
 fig, ax = plt.subplots()
-x, y, z = [0,0],[],[]
+x, y, z = [],[],[]
 sc = ax.scatter(x,y)
 plt.ylim(0,5)
 plt.xlim(20,109)
